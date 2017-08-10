@@ -5,6 +5,8 @@ namespace Lastfm.NETCore.Model
 {
     public class Album
     {
+        #region [Properties]
+
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -22,5 +24,16 @@ namespace Lastfm.NETCore.Model
 
         [JsonProperty("image")]
         public IList<Image> Images { get; set; }
+
+        #endregion
+
+        #region [Methods]
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        #endregion
     }
 }

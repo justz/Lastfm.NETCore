@@ -38,6 +38,15 @@ namespace Lastfm.NETCore.Model
 
         #endregion
 
+        #region [Methods]
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        #endregion
+
         #region [API Methods]
 
         public static async Task<Artist> GetInfoAsync(string name)
