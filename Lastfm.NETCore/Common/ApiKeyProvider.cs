@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Lastfm.NETCore.Common
 {
-    public class ApiKeyProvider
+    public sealed class ApiKeyProvider
     {
         #region [Fields]
 
@@ -16,9 +16,9 @@ namespace Lastfm.NETCore.Common
 
         #region [Ctor]
 
-        public ApiKeyProvider()
+        private ApiKeyProvider()
         {
-            InitApiKeys();
+            FillApiKeys();
         }
 
         #endregion
@@ -28,29 +28,31 @@ namespace Lastfm.NETCore.Common
         public string ApiKey => _apiKeys[_random.Next(0, _apiKeys.Count)];
 
         public int Count => _apiKeys.Count;
+        
+        public static ApiKeyProvider Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new ApiKeyProvider();
+                        }
+                    }
+                }
 
+                return _instance;
+            }
+        }
 
         #endregion
         
         #region [Methods]
-        
-        public static ApiKeyProvider Instance()
-        {
-            if (_instance == null)
-            {
-                lock (SyncRoot)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new ApiKeyProvider();
-                    }
-                }
-            }
 
-            return _instance;
-        }
-
-        private void InitApiKeys()
+        private void FillApiKeys()
         {
             _apiKeys = new List<string>()
             {

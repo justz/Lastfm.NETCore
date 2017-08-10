@@ -2,24 +2,34 @@
 
 namespace Lastfm.NETCore.Builder
 {
-    public class RequestUrlBuilder
+    public sealed class RequestUrlBuilder
     {
+        #region [Fields]
+
         private readonly StringBuilder _builder = new StringBuilder();
+
+        #endregion
+
+        #region [Ctor]
 
         public RequestUrlBuilder()
         {
             _builder.Append(BaseUrl);
         }
 
-        public RequestUrlBuilder SetFormat(string format = "json")
+        #endregion
+
+        #region [Methods]
+
+        public RequestUrlBuilder SetFormat(Format format = Format.Json)
         {
-            _builder.Append($"&format={format}");
+            _builder.Append($"&format={format.ToString().ToLowerInvariant()}");
             return this;
         }
 
-        public RequestUrlBuilder SetAutoCorrect(int autocorrect)
+        public RequestUrlBuilder SetAutoCorrect(bool autocorrect)
         {
-            _builder.Append($"&autocorrect={autocorrect}");
+            _builder.Append(autocorrect ? $"&autocorrect={1}" : $"&autocorrect={0}");
             return this;
         }
 
@@ -41,9 +51,30 @@ namespace Lastfm.NETCore.Builder
             return this;
         }
 
+        public RequestUrlBuilder SetMbid(string mbid)
+        {
+            _builder.Append($"&mbid={mbid}");
+            return this;
+        }
+
+        public RequestUrlBuilder SetPage(int page)
+        {
+            _builder.Append($"&page={page}");
+            return this;
+        }
+
         public RequestUrlBuilder SetExtraMethod(string extra)
         {
             _builder.Append($"&{extra}");
+            return this;
+        }
+        
+        public RequestUrlBuilder SetExtraParams(params string[] extraParams)
+        {
+            foreach (var param in extraParams)
+            {
+                _builder.Append(param);
+            }
             return this;
         }
 
@@ -52,6 +83,18 @@ namespace Lastfm.NETCore.Builder
             return _builder.ToString();
         }
 
+        #endregion
+
+        #region [Properties]
+
         public const string BaseUrl = "http://ws.audioscrobbler.com/2.0/?";
+
+        #endregion
+    }
+
+    public enum Format
+    {
+        Json,
+        Xml
     }
 }
