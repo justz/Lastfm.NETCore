@@ -2,7 +2,7 @@
 
 namespace Lastfm.NETCore.Builder
 {
-    public class RequestUrlBuilder
+    public sealed class RequestUrlBuilder
     {
         private readonly StringBuilder _builder = new StringBuilder();
 

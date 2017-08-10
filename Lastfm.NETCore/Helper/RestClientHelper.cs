@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Lastfm.NETCore.Helper
 {
-    public class RestClientHelper
+    public static class RestClientHelper
     {
         #region [Helpers]
 
