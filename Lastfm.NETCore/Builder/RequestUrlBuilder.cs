@@ -41,6 +41,18 @@ namespace Lastfm.NETCore.Builder
             return this;
         }
 
+        public RequestUrlBuilder SetMbid(string mbid)
+        {
+            _builder.Append($"&mbid={mbid}");
+            return this;
+        }
+
+        public RequestUrlBuilder SetPage(int page)
+        {
+            _builder.Append($"&page={page}");
+            return this;
+        }
+
         public RequestUrlBuilder SetExtraMethod(string extra)
         {
             _builder.Append($"&{extra}");
