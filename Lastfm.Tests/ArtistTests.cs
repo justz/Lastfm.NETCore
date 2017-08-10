@@ -16,5 +16,11 @@ namespace Lastfm.Tests
         {
             var res = await Artist.SearchAsync("rammstein");
         }
+        
+        [Fact]
+        public async void GetCorrection_Test()
+        {
+            var res = await Artist.GetCorrectionAsync("ramstain");
+        }
     }
 }

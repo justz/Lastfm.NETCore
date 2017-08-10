@@ -31,7 +31,7 @@ namespace Lastfm.NETCore.Model
 
         [JsonProperty("streamable")]
         public string Streamable { get; set; }
-        
+
         [JsonProperty("listeners")]
         public string Listeners { get; set; }
 
@@ -60,11 +60,12 @@ namespace Lastfm.NETCore.Model
 
                     response.EnsureSuccessStatusCode();
 
-                    var artist = await RestClientHelper.ParseResponse<Artist>(JObject.Parse(content)["artist"].ToString())
+                    var artist = await RestClientHelper
+                        .ParseResponse<Artist>(JObject.Parse(content)["artist"].ToString())
                         .ConfigureAwait(false);
-                    
+
                     await ThrowIfNull(artist.Image, content);
-                    
+
                     return artist;
                 }
                 catch (Exception ex)
@@ -73,7 +74,7 @@ namespace Lastfm.NETCore.Model
                 }
             }
         }
-        
+
         public static async Task<List<Artist>> SearchAsync(string name, int count = 10)
         {
             using (var client = new HttpClient())
@@ -98,7 +99,7 @@ namespace Lastfm.NETCore.Model
 
                     var artists = await RestClientHelper.ParseResponse<List<Artist>>(
                         JObject.Parse(content)["results"]["artistmatches"]["artist"].ToString()
-                            ).ConfigureAwait(false);
+                    ).ConfigureAwait(false);
 
                     await ThrowIfNull(artists, content);
                     return artists;
@@ -109,9 +110,41 @@ namespace Lastfm.NETCore.Model
                 }
             }
         }
+        
+        public static async Task<Artist> GetCorrectionAsync(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                var url = new RequestUrlBuilder()
+                    .SetMethod("artist.getCorrection")
+                    .SetExtraMethod($"artist={name}")
+                    .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                    .SetFormat()
+                    .Build();
+
+                string content = null;
+
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var artist = await RestClientHelper.ParseResponse<Artist>(JObject.Parse(content)["corrections"]["correction"]["artist"].ToString()).ConfigureAwait(false);
+
+                    await ThrowIfNull(artist, content);
+                    return artist;
+                }
+                catch (Exception ex)
+                {
+                    throw RestClientHelper.GetException(ex, content);
+                }
+            }
+        }
 
         #endregion
-        
+
         #region [Helpers]
 
         private static async Task ThrowIfNull(object obj, string content)
