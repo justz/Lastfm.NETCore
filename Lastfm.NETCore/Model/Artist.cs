@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
-using Lastfm.NETCore.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
 {
@@ -139,48 +139,6 @@ namespace Lastfm.NETCore.Model
 
             var tags = await GetRequest<List<Tag>>(url, o => o["toptags"]["tag"]);
             return tags.Take(count).ToList();
-        }
-
-        #endregion
-
-        #region [Helpers]
-
-        private static async Task ThrowIfNull(object obj, string content)
-        {
-            if (obj == null)
-            {
-                var error = await RestClientHelper.ParseResponse<ErrorResponse>(content);
-                throw new RestClientException(error.Message);
-            }
-        }
-
-        private static async Task<T> GetRequest<T>(string url, Func<JObject, JToken> keyParamsFunc)
-        {
-            using (var client = new HttpClient())
-            {
-                string content = null;
-                
-                try
-                {
-                    var response = await client.GetAsync(url).ConfigureAwait(false);
-                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                    response.EnsureSuccessStatusCode();
-
-                    var tracks = await RestClientHelper
-                        .ParseResponse<T>(keyParamsFunc(JObject.Parse(content))
-                        .ToString())
-                        .ConfigureAwait(false);
-
-                    await ThrowIfNull(tracks, content);
-                    
-                    return tracks;
-                }
-                catch (Exception ex)
-                {
-                    throw RestClientHelper.GetException(ex, content);
-                }
-            }
         }
 
         #endregion

@@ -1,13 +1,43 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Lastfm.NETCore.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Lastfm.NETCore.Helper
 {
     public static class RestClientHelper
     {
         #region [Helpers]
+
+        internal static async Task<T> GetRequest<T>(string url, Func<JObject, JToken> keyParamsFunc)
+        {
+            using (var client = new HttpClient())
+            {
+                string content = null;
+                
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var tracks = await ParseResponse<T>(keyParamsFunc(JObject.Parse(content))
+                            .ToString())
+                        .ConfigureAwait(false);
+
+                    await ThrowIfNull(tracks, content);
+                    
+                    return tracks;
+                }
+                catch (Exception ex)
+                {
+                    throw GetException(ex, content);
+                }
+            }
+        }
 
         internal static Exception GetException(Exception ex, string content)
         {
@@ -34,6 +64,15 @@ namespace Lastfm.NETCore.Helper
             catch (JsonReaderException ex)
             {
                 throw new RestClientException(ex.Message, ex);
+            }
+        }
+        
+        private static async Task ThrowIfNull(object obj, string content)
+        {
+            if (obj == null)
+            {
+                var error = await ParseResponse<ErrorResponse>(content);
+                throw new RestClientException(error.Message);
             }
         }
 
