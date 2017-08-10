@@ -211,6 +211,21 @@ namespace Lastfm.NETCore.Model
                 }
             }
         }
+        
+//        public static async Task<IEnumerable<Track>> GetTopTracksAsync(string name, int count = 20)
+//        {
+//            var url = new RequestUrlBuilder()
+//                .SetMethod("artist.getTopTracks")
+//                .SetExtraMethod($"artist={name}")
+//                .SetLimit(count)
+//                .SetAutoCorrect(true)
+//                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+//                .SetFormat()
+//                .Build();
+//
+//            var tracks =  await GetRequest<List<Track>>(url, o => o["toptracks"]["track"]);
+//            return tracks;
+//        }
 
         #endregion
 
@@ -222,6 +237,35 @@ namespace Lastfm.NETCore.Model
             {
                 var error = await RestClientHelper.ParseResponse<ErrorResponse>(content);
                 throw new RestClientException(error.Message);
+            }
+        }
+
+        private static async Task<T> GetRequest<T>(string url, Func<JObject, JToken> keyParamsFunc)
+        {
+            using (var client = new HttpClient())
+            {
+                string content = null;
+                
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var tracks = await RestClientHelper
+                        .ParseResponse<T>(keyParamsFunc(JObject.Parse(content))
+                        .ToString())
+                        .ConfigureAwait(false);
+
+                    await ThrowIfNull(tracks, content);
+                    
+                    return tracks;
+                }
+                catch (Exception ex)
+                {
+                    throw RestClientHelper.GetException(ex, content);
+                }
             }
         }
 
