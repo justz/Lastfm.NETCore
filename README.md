@@ -11,6 +11,8 @@ This library allows to fetch information about artist like:
 
 as well as get correction for artist and search artist from last fm database
 
+You can find all api methods on [last.fm/api](https://www.last.fm/api)
+
 ### Usage
 
 #### Search
