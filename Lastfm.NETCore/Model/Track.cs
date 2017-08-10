@@ -27,6 +27,6 @@ namespace Lastfm.NETCore.Model
         public Artist Artist { get; set; }
 
         [JsonProperty("image")]
-        public IList<Image> Image { get; set; }
+        public IList<Image> Images { get; set; }
     }
 }
