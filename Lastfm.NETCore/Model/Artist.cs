@@ -27,7 +27,7 @@ namespace Lastfm.NETCore.Model
         public string Url { get; set; }
 
         [JsonProperty("image")]
-        public IList<Image> Image { get; set; }
+        public IList<Image> Images { get; set; }
 
         [JsonProperty("streamable")]
         public string Streamable { get; set; }
@@ -64,7 +64,7 @@ namespace Lastfm.NETCore.Model
                         .ParseResponse<Artist>(JObject.Parse(content)["artist"].ToString())
                         .ConfigureAwait(false);
 
-                    await ThrowIfNull(artist.Image, content);
+                    await ThrowIfNull(artist, content);
 
                     return artist;
                 }
@@ -210,6 +210,21 @@ namespace Lastfm.NETCore.Model
                     throw RestClientHelper.GetException(ex, content);
                 }
             }
+        }
+        
+        public static async Task<List<Album>> GetTopAlbumsAsync(string name, int count = 10)
+        {
+            var url = new RequestUrlBuilder()
+                .SetMethod("artist.getTopAlbums")
+                .SetExtraMethod($"artist={name}")
+                .SetAutoCorrect(true)
+                .SetLimit(count)
+                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetFormat()
+                .Build();
+
+            var albums = await GetRequest<List<Album>>(url, o => o["topalbums"]["album"]);
+            return albums;
         }
         
 //        public static async Task<IEnumerable<Track>> GetTopTracksAsync(string name, int count = 20)
