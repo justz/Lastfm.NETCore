@@ -18,7 +18,7 @@ namespace Lastfm.NETCore.Common
         {
         }
 
-        public RestClientException(ErrorResponse errorResponse, Exception innerException)
+        public RestClientException(ErrorResponse errorResponse, Exception innerException) : base(null, innerException)
         {
             ErrorResponse = errorResponse;
         }

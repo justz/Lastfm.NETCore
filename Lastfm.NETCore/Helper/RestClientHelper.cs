@@ -11,7 +11,7 @@ namespace Lastfm.NETCore.Helper
 
         internal static Exception GetException(Exception ex, string content)
         {
-            var result = ex ?? new RestClientException(ParseErrorResponse(content), null);
+            var result = new RestClientException(ParseErrorResponse(content), ex);
             return result;
         }
 
