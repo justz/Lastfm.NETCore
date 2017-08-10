@@ -30,15 +30,15 @@ var tracks = await Artist.GetTopTracksAsync("rammstein");
 
 #### Similar artists
 ~~~
-var similar = await Artist.GetSimilarAsync("ramstain");
+var similar = await Artist.GetSimilarAsync("rammstein");
 ~~~
 
 #### Top albums
 ~~~
-var albums = await Artist.GetTopAlbumsAsync("ramstain");
+var albums = await Artist.GetTopAlbumsAsync("rammstein");
 ~~~
 
 #### Top tags
 ~~~
-var tags = await Artist.GetTopTagsAsync("ramstain");
+var tags = await Artist.GetTopTagsAsync("rammstein");
 ~~~
