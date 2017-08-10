@@ -46,6 +46,15 @@ namespace Lastfm.NETCore.Builder
             _builder.Append($"&{extra}");
             return this;
         }
+        
+        public RequestUrlBuilder SetExtraParams(params string[] extraParams)
+        {
+            foreach (var param in extraParams)
+            {
+                _builder.Append(param);
+            }
+            return this;
+        }
 
         public string Build()
         {
