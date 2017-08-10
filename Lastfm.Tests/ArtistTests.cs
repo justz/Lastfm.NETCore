@@ -22,5 +22,11 @@ namespace Lastfm.Tests
         {
             var res = await Artist.GetCorrectionAsync("ramstain");
         }
+        
+        [Fact]
+        public async void GetSimilar_Test()
+        {
+            var res = await Artist.GetSimilarAsync("ramstain");
+        }
     }
 }

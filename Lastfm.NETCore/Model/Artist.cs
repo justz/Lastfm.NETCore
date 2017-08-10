@@ -142,6 +142,40 @@ namespace Lastfm.NETCore.Model
                 }
             }
         }
+        
+        public static async Task<List<Artist>> GetSimilarAsync(string name, int count = 10)
+        {
+            using (var client = new HttpClient())
+            {
+                var url = new RequestUrlBuilder()
+                    .SetMethod("artist.getSimilar")
+                    .SetExtraMethod($"artist={name}")
+                    .SetAutoCorrect(true)
+                    .SetLimit(count)
+                    .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                    .SetFormat()
+                    .Build();
+
+                string content = null;
+
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var artists = await RestClientHelper.ParseResponse<List<Artist>>(JObject.Parse(content)["similarartists"]["artist"].ToString()).ConfigureAwait(false);
+
+                    await ThrowIfNull(artists, content);
+                    return artists;
+                }
+                catch (Exception ex)
+                {
+                    throw RestClientHelper.GetException(ex, content);
+                }
+            }
+        }
 
         #endregion
 
