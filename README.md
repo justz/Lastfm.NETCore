@@ -44,3 +44,7 @@ var albums = await Artist.GetTopAlbumsAsync("rammstein");
 ~~~
 var tags = await Artist.GetTopTagsAsync("rammstein");
 ~~~
+
+#### What is done?
+
+Already done artist section only
