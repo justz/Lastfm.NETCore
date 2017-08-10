@@ -11,15 +11,15 @@ namespace Lastfm.NETCore.Builder
             _builder.Append(BaseUrl);
         }
 
-        public RequestUrlBuilder SetFormat(string format = "json")
+        public RequestUrlBuilder SetFormat(Format format = Format.Json)
         {
-            _builder.Append($"&format={format}");
+            _builder.Append($"&format={format.ToString().ToLowerInvariant()}");
             return this;
         }
 
-        public RequestUrlBuilder SetAutoCorrect(int autocorrect)
+        public RequestUrlBuilder SetAutoCorrect(bool autocorrect)
         {
-            _builder.Append($"&autocorrect={autocorrect}");
+            _builder.Append(autocorrect ? $"&autocorrect={1}" : $"&autocorrect={0}");
             return this;
         }
 
@@ -62,5 +62,11 @@ namespace Lastfm.NETCore.Builder
         }
 
         public const string BaseUrl = "http://ws.audioscrobbler.com/2.0/?";
+    }
+
+    public enum Format
+    {
+        Json,
+        Xml
     }
 }

@@ -17,7 +17,7 @@ namespace Lastfm.NETCore.Helper
 
         internal static Task<T> ParseResponse<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            return Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(json));
         }
 
         internal static ErrorResponse ParseErrorResponse(string response)
