@@ -176,6 +176,41 @@ namespace Lastfm.NETCore.Model
                 }
             }
         }
+        
+        public static async Task<IEnumerable<Track>> GetTopTracksAsync(string name, int count = 20)
+        {
+            using (var client = new HttpClient())
+            {
+                var url = new RequestUrlBuilder()
+                    .SetMethod("artist.getTopTracks")
+                    .SetExtraMethod($"artist={name}")
+                    .SetLimit(count)
+                    .SetAutoCorrect(true)
+                    .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                    .SetFormat()
+                    .Build();
+
+                string content = null;
+                
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var tracks = await RestClientHelper.ParseResponse<List<Track>>(JObject.Parse(content)["toptracks"]["track"].ToString()).ConfigureAwait(false);
+
+                    await ThrowIfNull(tracks, content);
+                    
+                    return tracks;
+                }
+                catch (Exception ex)
+                {
+                    throw RestClientHelper.GetException(ex, content);
+                }
+            }
+        }
 
         #endregion
 
