@@ -140,21 +140,6 @@ namespace Lastfm.NETCore.Model
             var tags = await GetRequest<List<Tag>>(url, o => o["toptags"]["tag"]);
             return tags.Take(count).ToList();
         }
-        
-//        public static async Task<IEnumerable<Track>> GetTopTracksAsync(string name, int count = 20)
-//        {
-//            var url = new RequestUrlBuilder()
-//                .SetMethod("artist.getTopTracks")
-//                .SetExtraMethod($"artist={name}")
-//                .SetLimit(count)
-//                .SetAutoCorrect(true)
-//                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
-//                .SetFormat()
-//                .Build();
-//
-//            var tracks =  await GetRequest<List<Track>>(url, o => o["toptracks"]["track"]);
-//            return tracks;
-//        }
 
         #endregion
 
