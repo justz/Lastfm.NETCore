@@ -60,12 +60,48 @@ namespace Lastfm.NETCore.Model
 
                     response.EnsureSuccessStatusCode();
 
-                    var res = await RestClientHelper.ParseResponse<Artist>(JObject.Parse(content)["artist"].ToString())
+                    var artist = await RestClientHelper.ParseResponse<Artist>(JObject.Parse(content)["artist"].ToString())
                         .ConfigureAwait(false);
                     
-                    await ThrowIfNull(res.Image, content);
+                    await ThrowIfNull(artist.Image, content);
                     
-                    return res;
+                    return artist;
+                }
+                catch (Exception ex)
+                {
+                    throw RestClientHelper.GetException(ex, content);
+                }
+            }
+        }
+        
+        public static async Task<List<Artist>> SearchAsync(string name, int count = 10)
+        {
+            using (var client = new HttpClient())
+            {
+                var url = new RequestUrlBuilder()
+                    .SetMethod("artist.search")
+                    .SetExtraMethod($"artist={name}")
+                    .SetLimit(count)
+                    .SetAutoCorrect(true)
+                    .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                    .SetFormat()
+                    .Build();
+
+                string content = null;
+
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var artists = await RestClientHelper.ParseResponse<List<Artist>>(
+                        JObject.Parse(content)["results"]["artistmatches"]["artist"].ToString()
+                            ).ConfigureAwait(false);
+
+                    await ThrowIfNull(artists, content);
+                    return artists;
                 }
                 catch (Exception ex)
                 {
