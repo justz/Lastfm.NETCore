@@ -4,12 +4,22 @@ namespace Lastfm.NETCore.Builder
 {
     public sealed class RequestUrlBuilder
     {
+        #region [Fields]
+
         private readonly StringBuilder _builder = new StringBuilder();
+
+        #endregion
+
+        #region [Ctor]
 
         public RequestUrlBuilder()
         {
             _builder.Append(BaseUrl);
         }
+
+        #endregion
+
+        #region [Methods]
 
         public RequestUrlBuilder SetFormat(Format format = Format.Json)
         {
@@ -73,7 +83,13 @@ namespace Lastfm.NETCore.Builder
             return _builder.ToString();
         }
 
+        #endregion
+
+        #region [Properties]
+
         public const string BaseUrl = "http://ws.audioscrobbler.com/2.0/?";
+
+        #endregion
     }
 
     public enum Format
