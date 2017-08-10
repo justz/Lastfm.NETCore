@@ -40,5 +40,11 @@ namespace Lastfm.Tests
         {
             var res = await Artist.GetTopAlbumsAsync("ramstain");
         }
+        
+        [Fact]
+        public async void GetTopTags_Test()
+        {
+            var res = await Artist.GetTopTagsAsync("ramstain");
+        }
     }
 }

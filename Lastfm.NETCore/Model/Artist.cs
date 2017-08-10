@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Lastfm.NETCore.Builder;
@@ -225,6 +226,20 @@ namespace Lastfm.NETCore.Model
 
             var albums = await GetRequest<List<Album>>(url, o => o["topalbums"]["album"]);
             return albums;
+        }
+
+        public static async Task<List<Tag>> GetTopTagsAsync(string name, int count = 5)
+        {
+            var url = new RequestUrlBuilder()
+                .SetMethod("artist.getTopTags")
+                .SetExtraMethod($"artist={name}")
+                .SetAutoCorrect(true)
+                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetFormat()
+                .Build();
+
+            var tags = await GetRequest<List<Tag>>(url, o => o["toptags"]["tag"]);
+            return tags.Take(count).ToList();
         }
         
 //        public static async Task<IEnumerable<Track>> GetTopTracksAsync(string name, int count = 20)
