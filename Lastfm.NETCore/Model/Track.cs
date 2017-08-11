@@ -22,8 +22,8 @@ namespace Lastfm.NETCore.Model
         [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonProperty("streamable")]
-        public string Streamable { get; set; }
+//        [JsonProperty("streamable")]
+//        public string Streamable { get; set; }
 
         [JsonProperty("artist")]
         public Artist Artist { get; set; }
