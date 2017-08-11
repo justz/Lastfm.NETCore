@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Lastfm.NETCore.Builder;
+using Lastfm.NETCore.Common;
+using Lastfm.NETCore.Helper;
 using Newtonsoft.Json;
 
 namespace Lastfm.NETCore.Model
@@ -38,6 +42,30 @@ namespace Lastfm.NETCore.Model
         public override string ToString()
         {
             return Name;
+        }
+
+        #endregion
+
+        #region [API Methods] 
+
+        /// <summary>
+        /// Do not use this method
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static async Task<List<Track>> Search(string name, int count = 10)
+        {
+            var url = new RequestUrlBuilder()
+                .SetMethod("track.search")
+                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetFormat()
+                .SetLimit(count)
+                .SetExtraMethod($"track={name}")
+                .Build();
+
+            var tracks = await RestClientHelper.GetRequest<List<Track>>(url, o => o["results"]["trackmatches"]["track"]);
+            return tracks;
         }
 
         #endregion
