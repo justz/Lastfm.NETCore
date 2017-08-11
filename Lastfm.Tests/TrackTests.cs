@@ -1,4 +1,5 @@
-﻿using Lastfm.NETCore.Model;
+﻿using Lastfm.NETCore.Common;
+using Lastfm.NETCore.Model;
 using Xunit;
 
 namespace Lastfm.Tests
@@ -8,6 +9,7 @@ namespace Lastfm.Tests
         [Fact]
         public async void Search_Test()
         {
+            LastfmActivator.Activate();
             var tracks = await Track.Search("around");
         }
         

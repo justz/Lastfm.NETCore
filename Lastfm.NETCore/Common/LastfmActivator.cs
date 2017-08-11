@@ -2,9 +2,9 @@
 
 namespace Lastfm.NETCore.Common
 {
-    public static class LastfmInstance
+    public static class LastfmActivator
     {
-        public static void Configure()
+        public static void Activate()
         {
             AutoMapperConfig.Configure();
         }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
+using Lastfm.NETCore.Dto;
 using Newtonsoft.Json;
 using static Lastfm.NETCore.Helper.RestClientHelper;
 
@@ -60,7 +61,7 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={name}")
                 .Build();
 
-            var res = await GetRequest<List<SearchTrack>>(url, o => o["results"]["trackmatches"]["track"]);
+            var res = await GetRequest<List<SearchTrackDto>>(url, o => o["results"]["trackmatches"]["track"]);
             var tracks = Mapper.Map<List<Track>>(res);
             return tracks;
         }
@@ -79,16 +80,6 @@ namespace Lastfm.NETCore.Model
             var tracks = await GetRequest<List<Track>>(url, o => o["similartracks"]["track"]);
             return tracks;
         }
-
-        #endregion
-    }
-    
-    internal class SearchTrack : Track
-    {
-        #region [Properties]
-
-        [JsonProperty("artist")]
-        internal new string Artist { get; set; }
 
         #endregion
     }
