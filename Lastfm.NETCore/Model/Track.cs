@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
 using Newtonsoft.Json;
@@ -60,7 +61,7 @@ namespace Lastfm.NETCore.Model
                 .Build();
 
             var res = await GetRequest<List<SearchTrack>>(url, o => o["results"]["trackmatches"]["track"]);
-            var tracks = res.Select(a => a.ExtractArtist()).ToList();
+            var tracks = Mapper.Map<List<Track>>(res);
             return tracks;
         }
 
@@ -82,28 +83,12 @@ namespace Lastfm.NETCore.Model
         #endregion
     }
     
-    /// <summary>
-    /// Костыль для костыльного Lastfm.
-    /// В запросе track.search отличается поле artist
-    /// обычно оно типа Artist, но в данном запросе типа string.
-    /// И чтобы не городить Dto или конвертеры я создал этот костыль.
-    /// </summary>
     internal class SearchTrack : Track
     {
         #region [Properties]
 
         [JsonProperty("artist")]
         internal new string Artist { get; set; }
-
-        #endregion
-
-        #region [Methods]
-
-        internal Track ExtractArtist()
-        {
-            base.Artist = new Artist {Name = Artist};
-            return this;
-        }
 
         #endregion
     }
