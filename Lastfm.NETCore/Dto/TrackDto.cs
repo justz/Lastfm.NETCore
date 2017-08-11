@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
-using Lastfm.NETCore.Model;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Lastfm.NETCore.Builder;
+using Lastfm.NETCore.Common;
+using Lastfm.NETCore.Dto;
 using Newtonsoft.Json;
+using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Dto
 {
-    internal class SearchTrackDto
+    public class TrackDto
     {
         #region [Properties]
-
-        [JsonProperty("artist")]
-        internal string Artist { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -26,9 +29,24 @@ namespace Lastfm.NETCore.Dto
         [JsonProperty("url")]
         public string Url { get; set; }
 
+//        [JsonProperty("streamable")]
+//        public string Streamable { get; set; }
+
+        [JsonProperty("artist")]
+        public ArtistDto Artist { get; set; }
+
         [JsonProperty("image")]
         public IList<ImageDto> Images { get; set; }
-        
+
+        #endregion
+
+        #region [Methods]
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
         #endregion
     }
 }
