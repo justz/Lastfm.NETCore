@@ -48,12 +48,6 @@ namespace Lastfm.NETCore.Model
 
         #region [API Methods] 
 
-        /// <summary>
-        /// Do not use this method
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
         public static async Task<List<Track>> Search(string name, int count = 10)
         {
             var url = new RequestUrlBuilder()
@@ -65,6 +59,21 @@ namespace Lastfm.NETCore.Model
                 .Build();
 
             var tracks = await RestClientHelper.GetRequest<List<Track>>(url, o => o["results"]["trackmatches"]["track"]);
+            return tracks;
+        }
+
+        public static async Task<List<Track>> Similar(string track, string artist, int count = 20)
+        {
+            var url = new RequestUrlBuilder()
+                .SetMethod("track.getsimilar")
+                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetFormat()
+                .SetLimit(count)
+                .SetExtraMethod($"artist={artist}")
+                .SetExtraMethod($"track={track}")
+                .Build();
+            
+            var tracks = await RestClientHelper.GetRequest<List<Track>>(url, o => o["similartracks"]["track"]);
             return tracks;
         }
 

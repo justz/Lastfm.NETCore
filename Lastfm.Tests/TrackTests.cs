@@ -10,5 +10,11 @@ namespace Lastfm.Tests
         {
             var artists = await Track.Search("around");
         }
+        
+        [Fact]
+        public async void Similar_Test()
+        {
+            var artists = await Track.Similar("Rammstein", "Du hast");
+        }
     }
 }
