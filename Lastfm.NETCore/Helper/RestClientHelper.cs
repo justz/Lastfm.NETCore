@@ -24,8 +24,8 @@ namespace Lastfm.NETCore.Helper
 
                     response.EnsureSuccessStatusCode();
 
-                    var tracks = await ParseResponse<T>(keyParamsFunc(JObject.Parse(content))
-                            .ToString())
+                    var tracks = await ParseResponse<T>(keyParamsFunc?.Invoke(JObject.Parse(content))
+                            .ToString() ?? JObject.Parse(content).ToString())
                         .ConfigureAwait(false);
 
                     await ThrowIfNull(tracks, content);
