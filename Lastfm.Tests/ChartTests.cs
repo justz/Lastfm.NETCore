@@ -8,13 +8,19 @@ namespace Lastfm.Tests
         [Fact]
         public async void GetTopArtists_Test()
         {
-            var artists = await Chart.GetTopArtists();
+            var artists = await Chart.GetTopArtistsAsync();
         }
         
         [Fact]
         public async void GetTopTracks_Test()
         {
-            var tracks = await Chart.GetTopTracks();
+            var tracks = await Chart.GetTopTracksAsync();
+        }
+        
+        [Fact]
+        public async void GetTopTags_Test()
+        {
+            var tags = await Chart.GetTopTagsAsync();
         }
     }
 }
