@@ -10,5 +10,11 @@ namespace Lastfm.Tests
         {
             var artists = await Chart.GetTopArtists();
         }
+        
+        [Fact]
+        public async void GetTopTracks_Test()
+        {
+            var tracks = await Chart.GetTopTracks();
+        }
     }
 }
