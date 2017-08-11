@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
-using Lastfm.NETCore.Helper;
 using Newtonsoft.Json;
+using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
 {
@@ -48,7 +48,7 @@ namespace Lastfm.NETCore.Model
 
         #region [API Methods] 
 
-        public static async Task<List<Track>> Search(string name, int count = 10)
+        public static async Task<List<SearchTrack>> Search(string name, int count = 10)
         {
             var url = new RequestUrlBuilder()
                 .SetMethod("track.search")
@@ -58,7 +58,7 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={name}")
                 .Build();
 
-            var tracks = await RestClientHelper.GetRequest<List<Track>>(url, o => o["results"]["trackmatches"]["track"]);
+            var tracks = await GetRequest<List<SearchTrack>>(url, o => o["results"]["trackmatches"]["track"]);
             return tracks;
         }
 
@@ -73,7 +73,7 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={track}")
                 .Build();
             
-            var tracks = await RestClientHelper.GetRequest<List<Track>>(url, o => o["similartracks"]["track"]);
+            var tracks = await GetRequest<List<Track>>(url, o => o["similartracks"]["track"]);
             return tracks;
         }
 
