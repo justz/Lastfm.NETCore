@@ -77,7 +77,8 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={track}")
                 .Build();
             
-            var tracks = await GetRequest<List<Track>>(url, o => o["similartracks"]["track"]);
+            var res = await GetRequest<List<TrackDto>>(url, o => o["similartracks"]["track"]);
+            var tracks = Mapper.Map<List<Track>>(res);
             return tracks;
         }
 
