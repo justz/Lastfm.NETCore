@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
+using Lastfm.NETCore.Dto;
 using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
@@ -17,10 +18,10 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var artists = await GetRequest<List<Artist>>(url, o => o["artists"]["artist"]);
+            var artists = await GetRequestAndMap<List<ArtistDto>, List<Artist>>(url, o => o["artists"]["artist"]);
             return artists;
         }
-        
+
         public static async Task<List<Tag>> GetTopTagsAsync(int count = 10)
         {
             var url = new RequestUrlBuilder()
@@ -30,10 +31,10 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var tags = await GetRequest<List<Tag>>(url, o => o["tags"]["tag"]);
+            var tags = await GetRequestAndMap<List<TagDto>, List<Tag>>(url, o => o["tags"]["tag"]);
             return tags;
         }
-        
+
         public static async Task<List<Track>> GetTopTracksAsync(int count = 50)
         {
             var url = new RequestUrlBuilder()
@@ -43,7 +44,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var tracks = await GetRequest<List<Track>>(url, o => o["tracks"]["track"]);
+            var tracks = await GetRequestAndMap<List<TrackDto>, List<Track>>(url, o => o["tracks"]["track"]);
             return tracks;
         }
     }
