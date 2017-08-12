@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lastfm.NETCore.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,7 +12,7 @@ namespace Lastfm.NETCore.Helper
     {
         #region [Helpers]
 
-        internal static async Task<T> GetRequest<T>(string url, Func<JObject, JToken> keyParamsFunc)
+        internal static async Task<T> GetRequestWithMapping<T>(string url, Func<JObject, JToken> keyParamsFunc)
         {
             using (var client = new HttpClient())
             {
@@ -31,6 +32,35 @@ namespace Lastfm.NETCore.Helper
                     await ThrowIfNull(tracks, content);
                     
                     return tracks;
+                }
+                catch (Exception ex)
+                {
+                    throw GetException(ex, content);
+                }
+            }
+        }
+        
+        internal static async Task<TDestination> GetRequestWithMapping<TSource, TDestination>(string url, Func<JObject, JToken> keyParamsFunc)
+        {
+            using (var client = new HttpClient())
+            {
+                string content = null;
+                
+                try
+                {
+                    var response = await client.GetAsync(url).ConfigureAwait(false);
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var res = await ParseResponse<TSource>(keyParamsFunc?.Invoke(JObject.Parse(content))
+                                                            .ToString() ?? JObject.Parse(content).ToString())
+                        .ConfigureAwait(false);
+
+                    await ThrowIfNull(res, content);
+
+                    var data = Mapper.Map<TDestination>(res);
+                    return data;
                 }
                 catch (Exception ex)
                 {
