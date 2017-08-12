@@ -6,10 +6,10 @@ This library allows to fetch information like:
 * artist top tracks
 * artist top albums
 * artist top tags
-* similar artists 
-* similar songs by song name
-* search artist by name
-* get correction for artist name
+* similar artists by artist name (like rammstein)
+* similar songs by full song name (like rammstein du hast)
+* search artist by artist name (like rammstein)
+* get correction for artist name (like ramstain)
 * charts top tracks
 * charts top artists
 * charts top tags
