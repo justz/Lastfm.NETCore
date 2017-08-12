@@ -40,7 +40,7 @@ namespace Lastfm.NETCore.Helper
             }
         }
         
-        internal static async Task<TDestination> GetRequestWithMapping<TSource, TDestination>(string url, Func<JObject, JToken> keyParamsFunc)
+        internal static async Task<TDestination> GetRequestAndMap<TSource, TDestination>(string url, Func<JObject, JToken> keyParamsFunc)
         {
             using (var client = new HttpClient())
             {
