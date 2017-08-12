@@ -10,12 +10,14 @@ namespace Lastfm.NETCore.Provider
 
         private List<string> _apiKeys;
         private readonly Random _random = new Random();
+        private static readonly object SyncRoot = new object();
+        private static ApiKeyProvider _instance;
 
         #endregion [Fields]
 
         #region [Ctor]
 
-        public ApiKeyProvider()
+        private ApiKeyProvider()
         {
             FillApiKeys();
         }
@@ -29,6 +31,27 @@ namespace Lastfm.NETCore.Provider
         #endregion
         
         #region [Methods]
+        
+        public int Count => _apiKeys.Count;
+        
+        public static ApiKeyProvider Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new ApiKeyProvider();
+                        }
+                    }
+                }
+
+                return _instance;
+            }
+        }
 
         private void FillApiKeys()
         {
