@@ -6,10 +6,14 @@ namespace Lastfm.Tests
 {
     public class TrackTests
     {
+        public TrackTests()
+        {
+            LastfmActivator.Activate();
+        }
+        
         [Fact]
         public async void Search_Test()
         {
-            LastfmActivator.Activate();
             var tracks = await Track.Search("around");
         }
         
