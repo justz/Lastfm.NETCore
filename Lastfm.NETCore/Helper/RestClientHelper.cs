@@ -12,7 +12,7 @@ namespace Lastfm.NETCore.Helper
     {
         #region [Helpers]
 
-        internal static async Task<T> GetRequestWithMapping<T>(string url, Func<JObject, JToken> keyParamsFunc)
+        internal static async Task<T> GetRequest<T>(string url, Func<JObject, JToken> keyParamsFunc)
         {
             using (var client = new HttpClient())
             {
