@@ -51,7 +51,7 @@ namespace Lastfm.NETCore.Model
 
         #region [API Methods] 
 
-        public static async Task<List<Track>> Search(string name, int count = 10)
+        public static async Task<List<Track>> SearchAsync(string name, int count = 10)
         {
             var url = new RequestUrlBuilder()
                 .SetMethod("track.search")
@@ -65,7 +65,7 @@ namespace Lastfm.NETCore.Model
             return tracks;
         }
 
-        public static async Task<List<Track>> Similar(string track, string artist, int count = 20)
+        public static async Task<List<Track>> SimilarAsync(string track, string artist, int count = 20)
         {
             var url = new RequestUrlBuilder()
                 .SetMethod("track.getsimilar")
