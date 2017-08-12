@@ -16,6 +16,8 @@ This library allows to fetch information like:
 
 ### Implemented methods
 
+#### Artist section
+
 * Artist.GetInfoAsync
 * Artist.SearchAsync
 * Artist.GetCorrectionAsync
@@ -24,11 +26,17 @@ This library allows to fetch information like:
 * Artist.GetTopAlbumsAsync
 * Artist.GetTopTagsAsync
 
+#### Auth section
+
 * Auth.GetTokenAsync
+
+#### Chart section
 
 * Chart.GetTopArtistsAsync
 * Chart.GetTopTracksAsync
 * Chart.GetTopTagsAsync
+
+#### Track section
 
 * Track.SearchAsync
 * Track.SimilarAsync
