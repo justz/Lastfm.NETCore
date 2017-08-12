@@ -8,6 +8,7 @@ using Lastfm.NETCore.Common;
 using Lastfm.NETCore.Dto;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static Lastfm.NETCore.Helper.ActivatorHelper;
 using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
@@ -52,11 +53,13 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<Artist> GetInfoAsync(string name)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.getInfo")
                 .SetExtraMethod($"artist={name}")
                 .SetAutoCorrect(true)
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 
@@ -66,12 +69,14 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<List<Artist>> SearchAsync(string name, int count = 10)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.search")
                 .SetExtraMethod($"artist={name}")
                 .SetLimit(count)
                 .SetAutoCorrect(true)
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 
@@ -81,10 +86,12 @@ namespace Lastfm.NETCore.Model
         
         public static async Task<Artist> GetCorrectionAsync(string name)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.getCorrection")
                 .SetExtraMethod($"artist={name}")
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 
@@ -94,12 +101,14 @@ namespace Lastfm.NETCore.Model
         
         public static async Task<List<Artist>> GetSimilarAsync(string name, int count = 10)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.getSimilar")
                 .SetExtraMethod($"artist={name}")
                 .SetAutoCorrect(true)
                 .SetLimit(count)
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 
@@ -109,12 +118,14 @@ namespace Lastfm.NETCore.Model
         
         public static async Task<IEnumerable<Track>> GetTopTracksAsync(string name, int count = 20)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.getTopTracks")
                 .SetExtraMethod($"artist={name}")
                 .SetLimit(count)
                 .SetAutoCorrect(true)
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 
@@ -124,12 +135,14 @@ namespace Lastfm.NETCore.Model
         
         public static async Task<List<Album>> GetTopAlbumsAsync(string name, int count = 10)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.getTopAlbums")
                 .SetExtraMethod($"artist={name}")
                 .SetAutoCorrect(true)
                 .SetLimit(count)
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 
@@ -139,11 +152,13 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<List<Tag>> GetTopTagsAsync(string name, int count = 5)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("artist.getTopTags")
                 .SetExtraMethod($"artist={name}")
                 .SetAutoCorrect(true)
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .Build();
 

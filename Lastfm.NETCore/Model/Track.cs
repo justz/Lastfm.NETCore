@@ -6,6 +6,7 @@ using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
 using Lastfm.NETCore.Dto;
 using Newtonsoft.Json;
+using static Lastfm.NETCore.Helper.ActivatorHelper;
 using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
@@ -53,9 +54,11 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<List<Track>> SearchAsync(string name, int count = 10)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("track.search")
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .SetLimit(count)
                 .SetExtraMethod($"track={name}")
@@ -67,9 +70,11 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<List<Track>> SimilarAsync(string track, string artist, int count = 20)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
                 .SetMethod("track.getsimilar")
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetFormat()
                 .SetLimit(count)
                 .SetExtraMethod($"artist={artist}")

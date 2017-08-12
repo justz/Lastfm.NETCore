@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lastfm.NETCore.Contract;
 
-namespace Lastfm.NETCore.Common
+namespace Lastfm.NETCore.Provider
 {
-    public sealed class ApiKeyProvider
+    public sealed class ApiKeyProvider : IApiKeysProvider
     {
         #region [Fields]
 
         private List<string> _apiKeys;
         private readonly Random _random = new Random();
-        private static readonly object SyncRoot = new object();
-        private static ApiKeyProvider _instance;
 
         #endregion [Fields]
 
         #region [Ctor]
 
-        private ApiKeyProvider()
+        public ApiKeyProvider()
         {
             FillApiKeys();
         }
@@ -26,28 +25,7 @@ namespace Lastfm.NETCore.Common
         #region [Properties]
 
         public string ApiKey => _apiKeys[_random.Next(0, _apiKeys.Count)];
-
-        public int Count => _apiKeys.Count;
         
-        public static ApiKeyProvider Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (SyncRoot)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = new ApiKeyProvider();
-                        }
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
         #endregion
         
         #region [Methods]

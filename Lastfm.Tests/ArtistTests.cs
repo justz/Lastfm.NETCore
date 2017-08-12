@@ -1,19 +1,16 @@
 ﻿using Lastfm.NETCore.Common;
 using Lastfm.NETCore.Model;
+using Lastfm.NETCore.Provider;
 using Xunit;
 
 namespace Lastfm.Tests
 {
     public class ArtistTests
     {
-        public ArtistTests()
-        {
-            LastfmActivator.Activate();
-        }
-        
         [Fact]
         public async void GetInfo_Test()
         {
+            LastfmActivator.Configure(provider => new ApiKeyProvider());
             var res = await Artist.GetInfoAsync("rammstein");
         }
         

@@ -6,11 +6,6 @@ namespace Lastfm.Tests
 {
     public class TrackTests
     {
-        public TrackTests()
-        {
-            LastfmActivator.Activate();
-        }
-        
         [Fact]
         public async void Search_Test()
         {

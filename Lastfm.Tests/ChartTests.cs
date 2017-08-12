@@ -6,11 +6,6 @@ namespace Lastfm.Tests
 {
     public class ChartTests
     {
-        public ChartTests()
-        {
-            LastfmActivator.Activate();
-        }
-        
         [Fact]
         public async void GetTopArtists_Test()
         {

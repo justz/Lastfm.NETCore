@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
 using Lastfm.NETCore.Dto;
+using static Lastfm.NETCore.Helper.ActivatorHelper;
 using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
@@ -12,7 +13,7 @@ namespace Lastfm.NETCore.Model
         public static async Task<List<Artist>> GetTopArtistsAsync(int count = 50)
         {
             var url = new RequestUrlBuilder()
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetMethod("chart.gettopartists")
                 .SetLimit(count)
                 .SetFormat()
@@ -24,8 +25,10 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<List<Tag>> GetTopTagsAsync(int count = 10)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetMethod("chart.gettoptags")
                 .SetLimit(count)
                 .SetFormat()
@@ -37,8 +40,10 @@ namespace Lastfm.NETCore.Model
 
         public static async Task<List<Track>> GetTopTracksAsync(int count = 50)
         {
+            ThrowIfApiKeyProviderIsNull();
+            
             var url = new RequestUrlBuilder()
-                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetApiKey(LastfmActivator.ApiKeysProvider.ApiKey)
                 .SetMethod("chart.gettoptracks")
                 .SetLimit(count)
                 .SetFormat()
