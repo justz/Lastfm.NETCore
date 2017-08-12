@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Lastfm.NETCore.Builder;
+using Lastfm.NETCore.Dto;
 using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
@@ -14,7 +15,7 @@ namespace Lastfm.NETCore.Model
                 .SetApiKey(key)
                 .Build();
 
-            var token = await GetRequest<Token>(url, null);
+            var token = await GetRequestAndMap<TokenDto, Token>(url, null);
             return token;
         }
     }

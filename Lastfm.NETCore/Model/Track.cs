@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lastfm.NETCore.Builder;
 using Lastfm.NETCore.Common;
-using Lastfm.NETCore.Helper;
+using Lastfm.NETCore.Dto;
 using Newtonsoft.Json;
+using static Lastfm.NETCore.Helper.RestClientHelper;
 
 namespace Lastfm.NETCore.Model
 {
@@ -48,12 +51,6 @@ namespace Lastfm.NETCore.Model
 
         #region [API Methods] 
 
-        /// <summary>
-        /// Do not use this method
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
         public static async Task<List<Track>> Search(string name, int count = 10)
         {
             var url = new RequestUrlBuilder()
@@ -64,7 +61,22 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={name}")
                 .Build();
 
-            var tracks = await RestClientHelper.GetRequest<List<Track>>(url, o => o["results"]["trackmatches"]["track"]);
+            var tracks = await GetRequestAndMap<List<SearchTrackDto>, List<Track>>(url, o => o["results"]["trackmatches"]["track"]);
+            return tracks;
+        }
+
+        public static async Task<List<Track>> Similar(string track, string artist, int count = 20)
+        {
+            var url = new RequestUrlBuilder()
+                .SetMethod("track.getsimilar")
+                .SetApiKey(ApiKeyProvider.Instance.ApiKey)
+                .SetFormat()
+                .SetLimit(count)
+                .SetExtraMethod($"artist={artist}")
+                .SetExtraMethod($"track={track}")
+                .Build();
+            
+            var tracks = await GetRequestAndMap<List<TrackDto>, List<Track>>(url, o => o["similartracks"]["track"]);
             return tracks;
         }
 
