@@ -1,10 +1,16 @@
-﻿using Lastfm.NETCore.Model;
+﻿using Lastfm.NETCore.Common;
+using Lastfm.NETCore.Model;
 using Xunit;
 
 namespace Lastfm.Tests
 {
     public class ArtistTests
     {
+        public ArtistTests()
+        {
+            LastfmActivator.Activate();
+        }
+        
         [Fact]
         public async void GetInfo_Test()
         {
