@@ -14,13 +14,13 @@ namespace Lastfm.Tests
         [Fact]
         public async void Search_Test()
         {
-            var tracks = await Track.Search("around");
+            var tracks = await Track.SearchAsync("around");
         }
         
         [Fact]
         public async void Similar_Test()
         {
-            var tracks = await Track.Similar("Rammstein", "Du hast");
+            var tracks = await Track.SimilarAsync("Rammstein", "Du hast");
         }
     }
 }
