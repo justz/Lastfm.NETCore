@@ -2,14 +2,36 @@
 
 ### About
 
-This library allows to fetch information about artist like:
-* top tracks
-* top tags
-* top albums
-* similar artists
-* images
+This library allows to fetch information like:
+* artist top tracks
+* artist top albums
+* artist top tags
+* similar artists 
+* similar songs by song name
+* search artist by name
+* get correction for artist name
+* charts top tracks
+* charts top artists
+* charts top tags
 
-as well as get correction for artist and search artist from last fm database
+### Implemented methods
+
+Artist.GetInfoAsync
+Artist.SearchAsync
+Artist.GetCorrectionAsync
+Artist.GetSimilarAsync
+Artist.GetTopTracksAsync
+Artist.GetTopAlbumsAsync
+Artist.GetTopTagsAsync
+
+Auth.GetTokenAsync
+
+Chart.GetTopArtistsAsync
+Chart.GetTopTracksAsync
+Chart.GetTopTagsAsync
+
+Track.SearchAsync
+Track.SimilarAsync
 
 You can find all api methods on [last.fm/api](https://www.last.fm/api)
 
@@ -45,7 +67,4 @@ var albums = await Artist.GetTopAlbumsAsync("rammstein");
 var tags = await Artist.GetTopTagsAsync("rammstein");
 ~~~
 
-#### What is done?
-
-Already done artist section only
-![api](https://4.downloader.disk.yandex.ru/preview/e35dd76f423189e6ea5776a4c201d5f9979b104e517e4462d55cd928c3e69c2c/inf/zf66CxvUEfB-T6UPvwSRT05s07L4yV37Uu8lFZsoGd_1YU4U-9BhchIiNeJbYE1DTrkvyD0qA_kF8V9CEWDFmw%3D%3D?uid=0&filename=api.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&tknv=v2&size=XXL&crop=0)
+etc
