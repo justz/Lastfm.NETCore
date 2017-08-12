@@ -16,22 +16,22 @@ This library allows to fetch information like:
 
 ### Implemented methods
 
-Artist.GetInfoAsync
-Artist.SearchAsync
-Artist.GetCorrectionAsync
-Artist.GetSimilarAsync
-Artist.GetTopTracksAsync
-Artist.GetTopAlbumsAsync
-Artist.GetTopTagsAsync
+* Artist.GetInfoAsync
+* Artist.SearchAsync
+* Artist.GetCorrectionAsync
+* Artist.GetSimilarAsync
+* Artist.GetTopTracksAsync
+* Artist.GetTopAlbumsAsync
+* Artist.GetTopTagsAsync
 
-Auth.GetTokenAsync
+* Auth.GetTokenAsync
 
-Chart.GetTopArtistsAsync
-Chart.GetTopTracksAsync
-Chart.GetTopTagsAsync
+* Chart.GetTopArtistsAsync
+* Chart.GetTopTracksAsync
+* Chart.GetTopTagsAsync
 
-Track.SearchAsync
-Track.SimilarAsync
+* Track.SearchAsync
+* Track.SimilarAsync
 
 You can find all api methods on [last.fm/api](https://www.last.fm/api)
 
