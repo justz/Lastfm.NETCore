@@ -10,7 +10,7 @@ namespace Lastfm.Tests
         [Fact]
         public async void GetInfo_Test()
         {
-            LastfmActivator.Configure(provider => ApiKeyProvider.Instance);
+            LastfmActivator.Configure(() => ApiKeyProvider.Instance);
             var res = await Artist.GetInfoAsync("rammstein");
         }
         

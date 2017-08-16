@@ -6,10 +6,10 @@ namespace Lastfm.NETCore.Common
 {
     public static class LastfmActivator
     {
-        public static void Configure(Func<IApiKeysProvider, IApiKeysProvider> action)
+        public static void Configure(Func<IApiKeysProvider> provider)
         {
             AutoMapperConfig.Configure();
-            ApiKeysProvider = action(ApiKeysProvider);
+            ApiKeysProvider = provider();
         }
         
         internal static IApiKeysProvider ApiKeysProvider { get; private set; }
