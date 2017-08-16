@@ -12,7 +12,7 @@ namespace Lastfm.NETCore.Helper
     {
         #region [Helpers]
 
-        internal static async Task<T> GetRequest<T>(string url, Func<JObject, JToken> keyParamsFunc)
+        internal static async Task<T> GetRequestAsync<T>(string url, Func<JObject, JToken> keyParamsFunc)
         {
             using (var client = new HttpClient())
             {
@@ -25,11 +25,11 @@ namespace Lastfm.NETCore.Helper
 
                     response.EnsureSuccessStatusCode();
 
-                    var tracks = await ParseResponse<T>(keyParamsFunc?.Invoke(JObject.Parse(content))
+                    var tracks = await ParseResponseAsync<T>(keyParamsFunc?.Invoke(JObject.Parse(content))
                             .ToString() ?? JObject.Parse(content).ToString())
                         .ConfigureAwait(false);
 
-                    await ThrowIfNull(tracks, content);
+                    await ThrowIfNullAsync(tracks, content).ConfigureAwait(false);
                     
                     return tracks;
                 }
@@ -40,7 +40,7 @@ namespace Lastfm.NETCore.Helper
             }
         }
         
-        internal static async Task<TDestination> GetRequestAndMap<TSource, TDestination>(string url, Func<JObject, JToken> keyParamsFunc)
+        internal static async Task<TDestination> GetRequestAndMapAsync<TSource, TDestination>(string url, Func<JObject, JToken> keyParamsFunc)
         {
             using (var client = new HttpClient())
             {
@@ -53,11 +53,11 @@ namespace Lastfm.NETCore.Helper
 
                     response.EnsureSuccessStatusCode();
 
-                    var res = await ParseResponse<TSource>(keyParamsFunc?.Invoke(JObject.Parse(content))
+                    var res = await ParseResponseAsync<TSource>(keyParamsFunc?.Invoke(JObject.Parse(content))
                                                             .ToString() ?? JObject.Parse(content).ToString())
                         .ConfigureAwait(false);
 
-                    await ThrowIfNull(res, content);
+                    await ThrowIfNullAsync(res, content).ConfigureAwait(false);
 
                     var data = Mapper.Map<TDestination>(res);
                     return data;
@@ -75,7 +75,7 @@ namespace Lastfm.NETCore.Helper
             return result;
         }
 
-        internal static Task<T> ParseResponse<T>(string json)
+        internal static Task<T> ParseResponseAsync<T>(string json)
         {
             return Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(json));
         }
@@ -97,11 +97,11 @@ namespace Lastfm.NETCore.Helper
             }
         }
         
-        private static async Task ThrowIfNull(object obj, string content)
+        private static async Task ThrowIfNullAsync(object obj, string content)
         {
             if (obj == null)
             {
-                var error = await ParseResponse<ErrorResponse>(content);
+                var error = await ParseResponseAsync<ErrorResponse>(content).ConfigureAwait(false);
                 throw new RestClientException(error.Message);
             }
         }

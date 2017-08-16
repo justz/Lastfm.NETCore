@@ -63,7 +63,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var artist = await GetRequestAndMap<ArtistDto, Artist>(url, o => o["artist"]);
+            var artist = await GetRequestAndMapAsync<ArtistDto, Artist>(url, o => o["artist"]).ConfigureAwait(false);
             return artist;
         }
 
@@ -80,7 +80,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var artists = await GetRequestAndMap<List<ArtistDto>, List<Artist>>(url, o => o["results"]["artistmatches"]["artist"]);
+            var artists = await GetRequestAndMapAsync<List<ArtistDto>, List<Artist>>(url, o => o["results"]["artistmatches"]["artist"]).ConfigureAwait(false);
             return artists;
         }
         
@@ -95,7 +95,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var artist = await GetRequestAndMap<ArtistDto, Artist>(url, o => o["corrections"]["correction"]["artist"]);
+            var artist = await GetRequestAndMapAsync<ArtistDto, Artist>(url, o => o["corrections"]["correction"]["artist"]).ConfigureAwait(false);
             return artist;
         }
         
@@ -112,7 +112,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var artists = await GetRequestAndMap<List<ArtistDto>, List<Artist>>(url, o => o["similarartists"]["artist"]);
+            var artists = await GetRequestAndMapAsync<List<ArtistDto>, List<Artist>>(url, o => o["similarartists"]["artist"]).ConfigureAwait(false);
             return artists;
         }
         
@@ -129,7 +129,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var tracks = await GetRequestAndMap<List<TrackDto>, List<Track>>(url, o => o["toptracks"]["track"]);
+            var tracks = await GetRequestAndMapAsync<List<TrackDto>, List<Track>>(url, o => o["toptracks"]["track"]).ConfigureAwait(false);
             return tracks;
         }
         
@@ -146,7 +146,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var albums = await GetRequestAndMap<List<AlbumDto>, List<Album>>(url, o => o["topalbums"]["album"]);
+            var albums = await GetRequestAndMapAsync<List<AlbumDto>, List<Album>>(url, o => o["topalbums"]["album"]).ConfigureAwait(false);
             return albums;
         }
 
@@ -162,7 +162,7 @@ namespace Lastfm.NETCore.Model
                 .SetFormat()
                 .Build();
 
-            var tags = await GetRequestAndMap<List<TagDto>, List<Tag>>(url, o => o["toptags"]["tag"]);
+            var tags = await GetRequestAndMapAsync<List<TagDto>, List<Tag>>(url, o => o["toptags"]["tag"]).ConfigureAwait(false);
             return tags.Take(count).ToList();
         }
 

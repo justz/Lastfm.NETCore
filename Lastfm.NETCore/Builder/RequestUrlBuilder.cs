@@ -2,7 +2,7 @@
 
 namespace Lastfm.NETCore.Builder
 {
-    public sealed class RequestUrlBuilder
+    internal sealed class RequestUrlBuilder
     {
         #region [Fields]
 
@@ -12,7 +12,7 @@ namespace Lastfm.NETCore.Builder
 
         #region [Ctor]
 
-        public RequestUrlBuilder()
+        internal RequestUrlBuilder()
         {
             _builder.Append(BaseUrl);
         }
@@ -87,12 +87,12 @@ namespace Lastfm.NETCore.Builder
 
         #region [Properties]
 
-        public const string BaseUrl = "http://ws.audioscrobbler.com/2.0/?";
+        internal const string BaseUrl = "http://ws.audioscrobbler.com/2.0/?";
 
         #endregion
     }
 
-    public enum Format
+    internal enum Format
     {
         Json,
         Xml

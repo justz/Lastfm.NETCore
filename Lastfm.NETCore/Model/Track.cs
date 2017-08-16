@@ -64,7 +64,7 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={name}")
                 .Build();
 
-            var tracks = await GetRequestAndMap<List<SearchTrackDto>, List<Track>>(url, o => o["results"]["trackmatches"]["track"]);
+            var tracks = await GetRequestAndMapAsync<List<SearchTrackDto>, List<Track>>(url, o => o["results"]["trackmatches"]["track"]).ConfigureAwait(false);
             return tracks;
         }
 
@@ -81,7 +81,7 @@ namespace Lastfm.NETCore.Model
                 .SetExtraMethod($"track={track}")
                 .Build();
             
-            var tracks = await GetRequestAndMap<List<TrackDto>, List<Track>>(url, o => o["similartracks"]["track"]);
+            var tracks = await GetRequestAndMapAsync<List<TrackDto>, List<Track>>(url, o => o["similartracks"]["track"]).ConfigureAwait(false);
             return tracks;
         }
 

@@ -18,7 +18,7 @@ namespace Lastfm.NETCore.Model
                 .SetApiKey(key)
                 .Build();
 
-            var token = await GetRequestAndMap<TokenDto, Token>(url, null);
+            var token = await GetRequestAndMapAsync<TokenDto, Token>(url, null).ConfigureAwait(false);
             return token;
         }
     }
